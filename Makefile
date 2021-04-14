@@ -6,3 +6,6 @@ build:
 
 run:
 	go run src/*.go
+
+start:
+	./cmd/main.exe
