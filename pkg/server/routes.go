@@ -4,55 +4,21 @@ import (
 	"net/http"
 
 	"github.com/FourLineCode/financer/pkg/handler"
+	"github.com/FourLineCode/financer/pkg/middleware"
+	"github.com/gorilla/mux"
 )
 
-func (s *Server) IndexRouter(w http.ResponseWriter, r *http.Request) {
-	handler.IndexHandler(s.db, w, r)
+func (s *Server) RegisterRoutes(r *mux.Router, h *handler.Handler) {
+	// Index Routes
+	r.HandleFunc("/", h.IndexHandler).Methods(http.MethodGet)
+	r.HandleFunc("/api", h.ApiIndexHandler).Methods(http.MethodGet)
+
+	// Product Routes
+	r.HandleFunc("/api/product", middleware.Authenticate(h.GetAllProducts)).Methods(http.MethodGet)
+	r.HandleFunc("/api/product", middleware.Authenticate(h.CreateProduct)).Methods(http.MethodPost)
+	r.HandleFunc("/api/product/{id}", middleware.Authenticate(h.GetProductByID)).Methods(http.MethodGet)
+	r.HandleFunc("/api/product/{id}", middleware.Authenticate(h.UpdateProduct)).Methods(http.MethodPut)
+	r.HandleFunc("/api/product/{id}", middleware.Authenticate(h.DeleteProduct)).Methods(http.MethodDelete)
+
+	r.NotFoundHandler = http.HandlerFunc((h.NotFoundHandler))
 }
-
-func (s *Server) ProductRouter(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case http.MethodGet:
-		{
-			handler.GetAllProducts(s.db, w, r)
-			break
-		}
-	case http.MethodPost:
-		{
-			handler.CreateProduct(s.db, w, r)
-			break
-		}
-	}
-}
-
-func (s *Server) ProductRouterByID(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case http.MethodGet:
-		{
-			handler.GetProductByID(s.db, w, r)
-			break
-		}
-	case http.MethodPut:
-		{
-			handler.UpdateProduct(s.db, w, r)
-			break
-		}
-	case http.MethodDelete:
-		{
-			handler.DeleteProduct(s.db, w, r)
-			break
-		}
-	}
-}
-
-// func (s *Server) UserRouter(w http.ResponseWriter, r *http.Request) {
-// 	switch r.Method {
-// 	//
-// 	}
-// }
-
-// func (s *Server) UserRouterByID(w http.ResponseWriter, r *http.Request) {
-// 	switch r.Method {
-// 	//
-// 	}
-// }

@@ -7,24 +7,23 @@ import (
 	"github.com/FourLineCode/financer/pkg/model"
 	"github.com/go-playground/validator"
 	"github.com/gorilla/mux"
-	"gorm.io/gorm"
 )
 
 var validate = validator.New()
 
-func GetAllProducts(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetAllProducts(w http.ResponseWriter, r *http.Request) {
 	result := []model.Product{}
-	db.Find(&result)
+	h.db.Find(&result)
 
 	ResponseJSON(w, http.StatusOK, result)
 }
 
-func GetProductByID(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetProductByID(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["id"]
 
 	product := model.Product{}
-	if err := db.First(&product, id).Error; err != nil {
+	if err := h.db.First(&product, id).Error; err != nil {
 		ResponseError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -32,7 +31,7 @@ func GetProductByID(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	ResponseJSON(w, http.StatusOK, product)
 }
 
-func CreateProduct(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+func (h *Handler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 	product := model.Product{}
 
 	decoder := json.NewDecoder(r.Body)
@@ -46,7 +45,7 @@ func CreateProduct(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := db.Create(&product).Error; err != nil {
+	if err := h.db.Create(&product).Error; err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -54,12 +53,12 @@ func CreateProduct(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	ResponseJSON(w, http.StatusOK, product)
 }
 
-func UpdateProduct(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+func (h *Handler) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["id"]
 
 	product := model.Product{}
-	if err := db.First(&product, id).Error; err != nil {
+	if err := h.db.First(&product, id).Error; err != nil {
 		ResponseError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -70,7 +69,7 @@ func UpdateProduct(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := db.Save(&product).Error; err != nil {
+	if err := h.db.Save(&product).Error; err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -78,17 +77,17 @@ func UpdateProduct(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	ResponseJSON(w, http.StatusOK, Success{Success: true})
 }
 
-func DeleteProduct(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+func (h *Handler) DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["id"]
 
 	product := model.Product{}
-	if err := db.First(&product, id).Error; err != nil {
+	if err := h.db.First(&product, id).Error; err != nil {
 		ResponseError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	if err := db.Delete(&product).Error; err != nil {
+	if err := h.db.Delete(&product).Error; err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
 		return
 	}

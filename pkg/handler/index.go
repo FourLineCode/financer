@@ -2,14 +2,20 @@ package handler
 
 import (
 	"net/http"
-
-	"gorm.io/gorm"
 )
+
+type Welcome struct {
+	Message string `json:"message"`
+}
+
+func (h *Handler) IndexHandler(w http.ResponseWriter, r *http.Request) {
+	ResponseJSON(w, http.StatusOK, Welcome{Message: "Welcome to our API!"})
+}
 
 type Success struct {
 	Success bool `json:"success"`
 }
 
-func IndexHandler(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+func (h *Handler) ApiIndexHandler(w http.ResponseWriter, r *http.Request) {
 	ResponseJSON(w, http.StatusOK, Success{Success: true})
 }
