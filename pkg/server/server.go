@@ -4,8 +4,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/FourLineCode/financer/pkg/config"
+	"github.com/FourLineCode/financer/config"
 	"github.com/FourLineCode/financer/pkg/handler"
+	"github.com/FourLineCode/financer/pkg/middleware"
 	"github.com/FourLineCode/financer/pkg/model"
 	"github.com/gorilla/mux"
 	"gorm.io/driver/sqlite"
@@ -32,6 +33,8 @@ func (s *Server) InitializeDB(config *config.Config) *gorm.DB {
 	}
 
 	db.AutoMigrate(&model.Product{})
+	db.AutoMigrate(&model.User{})
+
 	return db
 }
 
@@ -40,8 +43,11 @@ func (s *Server) InitializeRouter() *mux.Router {
 
 	router.HandleFunc("/api/", s.IndexRouter).Methods(http.MethodGet)
 
-	router.HandleFunc("/api/product", s.ProductRouter).Methods(http.MethodGet, http.MethodPost)
+	router.HandleFunc("/api/product", middleware.Authenticate(s.ProductRouter)).Methods(http.MethodGet, http.MethodPost)
 	router.HandleFunc("/api/product/{id}", s.ProductRouterByID).Methods(http.MethodGet, http.MethodPut, http.MethodDelete)
+
+	// router.HandleFunc("/api/user", s.UserRouter).Methods(http.MethodGet, http.MethodPost)
+	// router.HandleFunc("/api/user/{id}", s.UserRouterByID).Methods(http.MethodGet, http.MethodPut, http.MethodDelete)
 
 	router.NotFoundHandler = http.HandlerFunc((handler.NotFoundHandler))
 

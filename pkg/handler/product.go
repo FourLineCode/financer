@@ -75,7 +75,7 @@ func UpdateProduct(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ResponseJSON(w, http.StatusOK, model.Success{Success: true})
+	ResponseJSON(w, http.StatusOK, Success{Success: true})
 }
 
 func DeleteProduct(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
@@ -93,5 +93,5 @@ func DeleteProduct(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ResponseJSON(w, http.StatusOK, &model.Success{Success: true})
+	ResponseJSON(w, http.StatusOK, Success{Success: true})
 }

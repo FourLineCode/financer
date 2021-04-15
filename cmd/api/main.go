@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/FourLineCode/financer/pkg/config"
+	"github.com/FourLineCode/financer/config"
 	"github.com/FourLineCode/financer/pkg/server"
 	"github.com/jesseokeya/go-httplogger"
 )

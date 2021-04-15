@@ -44,3 +44,15 @@ func (s *Server) ProductRouterByID(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
+
+// func (s *Server) UserRouter(w http.ResponseWriter, r *http.Request) {
+// 	switch r.Method {
+// 	//
+// 	}
+// }
+
+// func (s *Server) UserRouterByID(w http.ResponseWriter, r *http.Request) {
+// 	switch r.Method {
+// 	//
+// 	}
+// }
