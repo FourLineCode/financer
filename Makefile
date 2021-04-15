@@ -1,11 +1,11 @@
 dev:
-	go build -o ./cmd/ src/*.go && ./cmd/main.exe
+	go build -o ./cmd/bin/ ./cmd/api/*.go && ./cmd/bin/main.exe
 
 build:
-	go build -o ./cmd/ src/*.go
+	go build -o ./cmd/bin/ ./cmd/api/*.go
 
 run:
-	go run src/*.go
+	go run ./cmd/api/*.go
 
 start:
-	./cmd/main.exe
+	./cmd/bin/main.exe
