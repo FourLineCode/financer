@@ -17,13 +17,13 @@ type Server struct {
 }
 
 func (s *Server) Initialize(config *config.Config) *mux.Router {
-	s.db = s.InitializeDB(config)
-	s.Router = s.InitializeRouter()
+	s.db = s.initializeDB(config)
+	s.Router = s.initializeRouter()
 
 	return s.Router
 }
 
-func (s *Server) InitializeDB(config *config.Config) *gorm.DB {
+func (s *Server) initializeDB(config *config.Config) *gorm.DB {
 	db, err := gorm.Open(sqlite.Open(config.DatabaseURL), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err.Error())
@@ -39,11 +39,11 @@ func (s *Server) InitializeDB(config *config.Config) *gorm.DB {
 	return db
 }
 
-func (s *Server) InitializeRouter() *mux.Router {
+func (s *Server) initializeRouter() *mux.Router {
 	r := mux.NewRouter()
 	h := handler.New(s.db)
 
-	s.RegisterRoutes(r, h)
+	s.registerRoutes(r, h)
 
 	return r
 }

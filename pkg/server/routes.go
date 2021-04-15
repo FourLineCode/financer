@@ -8,7 +8,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func (s *Server) RegisterRoutes(r *mux.Router, h *handler.Handler) {
+func (s *Server) registerRoutes(r *mux.Router, h *handler.Handler) {
 	// Index Routes
 	r.HandleFunc("/", h.IndexHandler).Methods(http.MethodGet)
 	r.HandleFunc("/api", h.ApiIndexHandler).Methods(http.MethodGet)
