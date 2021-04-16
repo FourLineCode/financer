@@ -16,6 +16,10 @@ type Server struct {
 	Router *mux.Router
 }
 
+func New() *Server {
+	return &Server{}
+}
+
 func (s *Server) Initialize(config *config.Config) *mux.Router {
 	s.db = s.initializeDB(config)
 	s.Router = s.initializeRouter()

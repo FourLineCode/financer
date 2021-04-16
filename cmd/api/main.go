@@ -13,7 +13,7 @@ import (
 func main() {
 	config := config.GetConfig()
 
-	server := server.Server{}
+	server := server.New()
 	server.Initialize(config)
 
 	fmt.Println("Server started on http://localhost" + config.Port)
