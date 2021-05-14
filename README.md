@@ -2,7 +2,7 @@
 
 ## Stack
 
--   [gorilla/mux](https://github.com/gorilla/mux)
+-   [fiber](https://github.com/gofiber/fiber)
 -   [gorm](https://gorm.io/)
 
 ### Run the project

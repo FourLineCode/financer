@@ -4,50 +4,42 @@ import (
 	"log"
 
 	"github.com/FourLineCode/financer/config"
-	"github.com/FourLineCode/financer/pkg/handler"
 	"github.com/FourLineCode/financer/pkg/model"
-	"github.com/gorilla/mux"
+	"github.com/gofiber/fiber/v2"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
 type Server struct {
-	db     *gorm.DB
-	Router *mux.Router
+	app *fiber.App
+	db  *gorm.DB
+	log log.Logger
 }
 
-func New() *Server {
-	return &Server{}
+func New(config *config.Config) *Server {
+	app := fiber.New()
+
+	db := initializeDB(config)
+
+	return &Server{app, db, log.Logger{}}
 }
 
-func (s *Server) Initialize(config *config.Config) *mux.Router {
-	s.db = s.initializeDB(config)
-	s.Router = s.initializeRouter()
+func (s *Server) Run(port string) {
+	s.initializeRouter()
 
-	return s.Router
+	s.log.Fatal(s.app.Listen(port))
 }
 
-func (s *Server) initializeDB(config *config.Config) *gorm.DB {
+func initializeDB(config *config.Config) *gorm.DB {
 	db, err := gorm.Open(sqlite.Open(config.DatabaseURL), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err.Error())
 		panic("Failed to connect database!")
 	}
 
-	// Migrate all models
 	db.AutoMigrate(
-		&model.Product{},
 		&model.User{},
 	)
 
 	return db
-}
-
-func (s *Server) initializeRouter() *mux.Router {
-	r := mux.NewRouter()
-	h := handler.New(s.db)
-
-	s.registerRoutes(r, h)
-
-	return r
 }

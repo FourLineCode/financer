@@ -1,8 +1,8 @@
 dev:
-	go build -o ./cmd/bin/ ./cmd/api/*.go && ./cmd/bin/main
+	go run ./cmd/api/*.go
 
 build:
-	go build -o ./cmd/bin/ ./cmd/api/*.go
+	go build -o ./cmd/bin/main ./cmd/api/*.go
 
 run:
 	go run ./cmd/api/*.go
