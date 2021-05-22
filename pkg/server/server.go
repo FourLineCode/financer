@@ -3,7 +3,7 @@ package server
 import (
 	"log"
 
-	"github.com/FourLineCode/financer/config"
+	"github.com/FourLineCode/financer/internal/config"
 	"github.com/FourLineCode/financer/pkg/model"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/driver/sqlite"

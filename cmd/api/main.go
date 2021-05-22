@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/FourLineCode/financer/config"
+	"github.com/FourLineCode/financer/internal/config"
 	"github.com/FourLineCode/financer/pkg/server"
 )
 
