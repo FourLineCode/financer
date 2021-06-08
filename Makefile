@@ -6,3 +6,5 @@ build:
 
 run:
 	go run ./cmd/api/*.go
+website:
+	cd ./web && npm run dev
