@@ -7,4 +7,4 @@ build:
 run:
 	go run ./cmd/api/*.go
 website:
-	cd ./web && npm run dev
+	cd ./web && npx lite-server
