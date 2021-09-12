@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/FourLineCode/financer/internal/config"
-	"github.com/FourLineCode/financer/internal/server"
+	"github.com/FourLineCode/financer/pkg/server"
 )
 
 func main() {
